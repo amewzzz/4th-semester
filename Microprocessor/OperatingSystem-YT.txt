@@ -1,0 +1,550 @@
+{Vid1}Operating System(OS)
+
+- acts as interface between user and hardware
+
+Software: tested program with documentation
+
+Application software: special purpose
+System software: provides platform for application to run
+
+User
+ |
+os
+ |
+Hardware(CPU, I/O devices, memory)
+
+#Functionalities of OS:
+- Resource manager: CPU, Memory, I/O devices
+
+- Processor Management: scheduling
+- Memory Management: RAM
+- I/O Device Management: I/O devices
+- Storage Management: filesystem
+- Security and Protection
+
+*** Convenience: easy to use e.g. windows
+	Effeciency: for supercomputers
+	
+*** Interfaces: 
+	GUI: System call
+	CUI: system command
+	
+{Vid2}Types of operating system:
+
+- Batch OS
+- Multiprogramming OS
+- Multitasking OS
+- Multiprocessing OS
+- Real time OS
+
+JOB:
+	Program
+	I/P data
+	Control Instruction
+	
+Batch OS:
+- non interactive
+- jobs are prepared in the form of punch card and give to the operator who is responsible for batching the job and giving it to the operating system
+- CPU stay idle during loading and unloading of batch
+
+Multiprogramming:
+- only one process can be in the CPU, if the process is doing I/O operations the another process can use CPU but the prior process cannot be force fully removed from the CPU
+- draw back: small process has to wait for long running processes
+- no priority system
+
+Multitasking:
+- extension of multiprogramming
+- a process in the CPU can be forcefully removed and another CPU can be allocated to the another process, depen
+- based on time swap: time quanta(e.g. 2 sec) is given to a particular task in the CPU
+- time sharing, fair sharing, multiprogramming with Round Robin
+
+Multiprocessing:
+- multiple CPUs
+- multiple processes can be run parallelly
+- a process per CPUs
+
+Real time:
+- time constraints
+- Soft RT: process should be completed in a time bound
+- Hard RT: process should be completed in exact time
+- e.g.: time bomb, missile launching
+
+
+{Vid3}Process State Diagram
+
+New ---(Created)--- Ready{Main memory} ---(Schedule/dispatch)--- Running ---(completed)--- terminated
+					---(I/O operation)--- Waiting/Blocked ---I/O Request---
+					---(Time quanta/Priority)---
+			---(Suspend)--- Suspend Ready{Storage} ---(Resume)---		
+				--- Suspend Wait --
+			
+					
+
+
+Scheduler:
+- Long term scheduler: create -> ready
+- Short term scheduler: schedule process or select the task
+- Dispatcher: ready to running state
+- Medium term scheduler: suspend  (main memory <-> storage)
+
+Process:
+	cpu bound: more time in cpu operations
+	i/o bound: more time in i/o opeartions
+	
+Long term scheduler: has to balance the number of cpu bound and i/o bound processes for proper utilization of CPU and proper timing for i/o bound operations
+
+ST > MT > LT
+
+
+{Vid4} First Come First Serve
+- scheduling algorithm
+- assigns CPU to the process which comes first in ready queue
+- non-preemptive scheduling: a process assigned to CPU cannot be removed forcefully from the CPU by OS  unless it goes to terminate state or waiting state 
+- uses QUEUE data structure
+arrival time(AT): time at which a process comes to ready state
+burst time(BT): the time needed by the process to complete
+completion time(CT): time at which the process is completed
+turn around time(CT): Waiting + Burst Time or Completion - Arrival
+Response time(RT): waiting time(for non preemptive)
+
+
+{Vid5} Convoy Effect(in FCFS)
+- if a long process come before a short process: waiting time is high
+- if a short process come before a long process: waiting time is low
+
+Starvation: 
+- in Priority Scheduling
+
+{Vid6} Shortest Job First| Shortet Job Next
+
+-  process with the shorted brust time is selected
+
+* Pre-emptive(Shortest Remaining Time First)
+* Non-preemptive 
+
+- if two processess have the same brust time, then apply first come first serve(FCFS)
+
+{Vid7}
+# Non Pre-emptive
+- for first process apply FCFS if multiple processes the apply Shortest Job First
+- for multiple ready processes apply Shortest Job First
+
+# SJF with preemption/ SRTF(Shortest Remaining Time First)
+- whenever new process arrives, there may be preemption of the running process
+- after all the processes have arrived it acts as SJF with no-preemption
+- if all the processes have not arrived then check for the condition of preemption after each unit of time
+
+{Vid8} Advantage and Disadvantage of SJF
+Advantage:
+- min average WT and min average TAT
+- better response thim than FCFS
+- SRTF: maximum throughput: no. of processes per unit of time
+- provides a standard for other algorithms in cas of average WT
+
+Disadvantage:
+- can not be implemented(imposssible to know the burst time in advance)
+- starvation problem with process having larger BT
+	- for a process with large BT, SJF and SRTF will push the process into starvation
+- Convoy Effect:(SJF without preemption)
+	- arrival time affects the order of the process and possible for convoy effect
+
+
+{Vid9} Prediction of Brust Time
+- predict the approximate brust time for a process
+- may not always work
+* Process Size: what was the size of the previous process and how much was its brust time
+* Process Type: brust time also depends on the type of the process 
+
+* Simple Averaging
+- we know the brust time of the many processes we do the simple averaging
+
+* Exponential Averaging
+- expected brust time of the current process depends on the actual brust time and the expected brust time of the previous process
+- the history of brust time of all the processes determines the expected brust time of the current process
+
+**** NOT PRACTICALLY USED
+
+{Vid10} 
+cpu utilization = (expected cpu time)/(actual cpu time)
+SJF
+
+{Vid11}
+question solution
+question solution
+FCFS
+
+{Vid12} Round Robin
+- used in time sharing system
+- time slicing algorithm
+- similar to FCFS with Time Quantum(period of time allocated to a process to run without begin interrupted)
+- MODE: Pre-emptive
+- detrministic response time
+
+* maintain READY Queue
+- if the arrival time of new process and the preempted time of a current process is same, always put the newly arrived process ahead in the ready queue
+
+
+Disadvantage:  
+- if the time quanta is large then it is same as FCFS
+- if the time quanta is very small, more process will get chance to use the cpu, but the number of context switching is high which also cost time
+
+
+***** IDEAL TIME QUANTA: 10-100ms *****
+
+{Vid13} Round Robin(RR) Algorithm 
+
+- Context switch time is 1 unit
+Context Switch:  ---- READY --- RUNNING --- READY---
+
+context: state of the cpu including the process it is running
+
+* maintain READY queue
+- no of context switching
+- cpu utilizetion
+
+Advantages:
+- most implemented in OS
+- easy and simple to implement
+- each cpu gets a fair share of cpu
+- no starvation
+- no convoy effect
+- deterministic response time
+- priority is same for each process
+
+Disadvantage:
+- overhead of context switching
+- throughput depends on the time quantum(TQ)
+- TQ:	 small - more overhead of context switching and average waiting time increases
+		 large - same as FCFS
+- deciding the appropriate TQ is difficult
+
+{Vid14}
+-   context switching: c 
+	max waiting time: T
+	no. of processes: n 
+	
+	((n-1)*tq + c*n) <= T
+	tq = (t-c*s)/(n-1)
+
+{Vid15} Priority Scheduling
+
+Priority:	- static (same priority throughout the process)
+			- dynamic (priority changes after some interval of time)
+		
+
+
+Version:	- non-preemptive
+			- preemptive
+			
+(Non Pre-emptive)
+*** lesser the number higher the priority (often mentioned)
+
+*** FIRST: Check the arrival time 
+*** PRIORITY: Out of all the available processes
+
+
+{Vid16} Pre-emptive
+* assumption: lesser the number higher the priority
+
+- a newly arrived process whose priority is higher than the process in the cpu pre-empts the currently running process and the newly arrived process is loaded into the cpu
+- after all the processess have arrived we only load the process based on their priority
+
+Disadvantage: 
+- starvation: a process with low priority which arrived early, may have to wait indefinite time due to the arrival of new processess with higher priority
+Solution: AGEING
+		- providing the dynamic priority
+		- priority of the processes in waiting state increases after a fixed amount of time, so that they don't have to wait for indefinite amount of time
+	
+	
+{Vid17} Starvation and Ageing
+
+Starvation: Indefinite blocking of process 
+	- a process which is ready to run have to wait indefinitely because of low priority
+	- high priority processes prevent a low priority process from ever getting the cpu
+
+Aging: 
+	- method to ensure that processes with lower priority will eventually complete their execution
+	- by gradually increasing the priority of process that wait in the system for a long time 
+
+example: after every 3 unit of time of cpu, priority of waiting processes will decrease by 1(lower the number higher the priority)
+
+
+{Vid18} Deadlock in OS
+- waiting for something for infinite time in which there is no progress for waiting processes
+- processes waits for one another's action indefinitely, but that action cannot occur
+
+***NO PROGRESS***WAITING PROCESSES***
+
+- multiprogramming OS
+	- Several Processes competing for finite resources
+
+- a processing never changes its state while waiting for the resources held by another waiting process
+- hence, no progess indefinitely
+- leads to deadlock
+
+Coffman condition: Necessary Condition
+- all 4 needed
+
+Mutual Exclusion: at least one resource must be held in non sharable mode
+Hold and wait: process holding one non shareable resource and waiting to acquire resources that are currently help by other processes
+No Pre-emption: resource cannot be prempted; the resource held by a process cannot be forcefully taken by another process
+Circular Wait: 
+
+
+{Vid19} Resource Allocation Graph
+- directed 
+
+Set of vertices: V
+		- set of processes (P1, P2...)
+		- set of resources (R1, R2...)
+
+Edges: E 
+		- Pi--->Ri (Request Edge)
+		- Ri--->Pi(Allocation Edge)
+		
+
+- resource type : rectange
+- process : circle
+
+instances of resource type: no. of dots inside the rectange
+
+- if there is no cycle in the resource allocation graph, there will be no dead lock
+- if there is a cycle, then, there may be the deadlock situation
+		- Allocation Matrix
+		- Request Matrix
+		- Avaliability Matrix
+		
+cycle + one instance :=> Deadlock : cycle necessary and sufficient condition of deadlock
+cycle + more than one instane :=> may or may not deadlock : cycle is necessary condition but not sufficient contition for deadlock 
+
+
+
+{Vid20} Deadlock Handling in OS
+Deadlock occurs once in a year
+
+ 1. Deadlock Prevention
+ 2. Deadlock Avoidance
+ 3. Deadlock Detectin and Recovery
+ 4. Deadlock Ignorance (Ostrich Method)
+ 
+ 1. Deadlock Prevention
+ - lots of effort and complexity
+ - affects the performace
+ - code is very difficult
+ - IMPORTANT IN: aircrafts, medical equipments (critical applications)
+ 
+- remove at least one coffman condition 
+ 
+a. Mutual Exclusion
+- no feasible
+- some resources are not sharable
+
+b. Hold and wait 
+- either hold or wait
+- a process must acquire all the necessar resources before execution starts
+		- resource utilization is low
+		- practically no feasible
+- process holding soem resources and requesting for additional resources, then it must release the acquired resources first
+		- starvation problem 
+- wait timeout 
+		- if time quanta expires and it doesnot get the additional resources, then it has to release the acquired resources also 
+
+c. Removal of No-Preemption
+- used by some system processes (higher priority processes)
+- resources can be prempted from processes
+- waiting process is treated as victim not the running process
+
+d. Circular Wait
+- Assign number to the resources and ensure that the process can request for resources in strictly increasing or strictly decreasing order only
+- Implementable but difficult to determine the dynamic ordering of the resources
+
+
+{Vid21} Deadlock Avoidance
+- futuristic approach
+- safety algorithm
+- system maintains some database using which it can take decision whether to entertain a request or not, just to be in safe state
+- system(kernel) analyze the database(allocation state) to determine whether granting a request can lead to deadlock in future 
+	- if not lead to deadlock thr granted
+	- otherwise keep pending until they can be granted
+	(drawback: such process may face long delay for obtaining a resource)
+
+
+States:
+	- safe state: no deadlock
+	- unsafe state: may be in deadlock
+
+- every process declares its maximum need
+- based on these informations kenel can decide whether to grant that process or not
+
+
+# Resource Allocation Graph Algorithm
+- for resouces having single instance
+- Claim edge: Pi -------> Rj
+	- Pi may request Rj in future
+- resources must be claimed in advance
+- When Pi request Rj then request eqge can only be converted into assignment edge if it does not form a cyclc in RAG
+ 
+
+{Vid22}Banker's Algorithm 
+- suitable for resouces with multiple instance
+
+to apply Bankers Algorthm we need to know:
+- how many instances of each resource each process can max request
+- how many instances of each resource each process currently holds 
+- how many instances of each resource is available in the system 
+
+- 2d-array : MAX table : max needed
+- 2d-array : Allocation table : allocated 
+- 1d-array : Available in system
+- 2d-array : Need matrix = max - allocated 
+
+
+
+Safe Sequence: 
+	- execute the process whose need is fulfilled so that it releases the resources it holds, to we get more available instances of resources
+	- after the complete execution of all the processes total number of instances of resources equals the no. of available instances
+	
+implementation:
+	- n: no. of processes
+	- m: no. of resources 
+
+matrices:  
+	[n][m]
+	[m]
+
+
+
+{Vid23} Banker (Resource Request Algorithm}
+1. Need matrix?
+2. Is system in sage state? if yes find safe sequence
+3. If request from P1 arrives for(1,1,0,0)
+	Can request be intermediately granted?
+4. If request from P4 arrives for (0,0,2,0)
+	Can it be immediately granted?
+	
+*** Before granting the requested resources it has to determine if the allocation lead to safe state(i.e. safe sequence is available)
+	- if any allocation leads to the safe state, the resources is allocated immediately
+	
+	- request arrives --- safety algorithm ---  grant/nogrant
+
+
+{Vid24}Deadlock Detection and Recovery
+
+- allow the system to enter into deadlock state
+
+detection algorithm types: 
+	- single instance (wait-for graph) 
+	- multiple instances (Banker's algorithm)
+
+# Wait-for graph
+- Resource allocation graph  to Wait for graph : remove the resource vertices
+- Vertices: processes
+- detect cycle (necessary and sufficient condition)
+
+- how frequent is the deadlock 
+- how many processes are affected by the deadlock
+
+- if deadlock algorithm is called after each resource allocation, there will be overhead of calling the algorithm
+- so, call the algorithm after particular interval of time (say, after every 1 hour) or when the CPU utilization is below 30%
+
+# Bankers Algorithm 
+- for resources with multiple 
+
+- After each resource request run the algorithm to determine if it leads to safe state
+
+
+{Vid25}Deadlock Recovery
+- selection of victim
+
+1. Optimistic approach
+- pre-empt some resources from prcess and give these resources to other processes until the deadlock cycle is broken 
+	- selecting a victim: 
+	- Rollback : to previous safe stat, total rollback
+	- starvation: if  same process is victim multiple,
+		- set max number of rollbacks a process can go to 
+		- so the single process doesnot got the starvation
+		
+
+2. Pessimistic Approach
+- process termination
+- abort all deadlocked processes(costly)
+- abort one process at a time and decide next to abort after deadlock detection(overhead of deadlock detection)
+	- HOW to decide which process to abort 
+	- priority of process
+	- how long the process has completed 
+	- how much longer a process will compute before completing 
+	- how many and what type of resources the process has used 
+	- how many resources the process needs to complete its execution
+	
+
+{Vid26}
+- What is the minimum value of m such that system is deadlock free?
+
+
+{Vid27} CPU Scheduling
+- Ready -----(Short term scheduler) ---- Running
+
+Arrival time: come to ready state
+Completion time: process terminated completely
+Brust: total time in cpu
+turn around time: CT - AT
+response time: 1st time a process gets the cpu - arrival time
+waiting time: TAT - BT
+ortes
+
+Selection of Scheduling Algorithm:
+- CPU Utiliztion: high(0-1)
+- TAT: less
+- Response Time: min
+- Waiting Time: less
+- Throughput: max  
+
+
+
+
+
+{Vid28} Page Replacement Algorithm
+- Process is divided into equal sized pages
+- demand paging: when cpu needs the particular page of the proces s, the page is loaded into the memory
+- page fault: if the needed page is not in the main memory
+	- main memory contact to secondary storage
+	- find a victim page in main memory
+	- replace victim with the new page 
+	- OS update the Page table
+	(Swap in and Swap out)
+Page table: 
+
+*** Algorithm selection: minimum page fault
+
+FIFO: 
+	- OS maintain the queue for the pages in the main memory 
+	- No. of page faults: 
+	- hit ratio: (total hit)/(total)
+	
+	
+{Vid29} LRU(Least Recently Used)
+- Victim: least recently used page: trace out from right to left in the string
+
+
+# Optimal Page Replacement Algorithm(Theoritical )
+- least no. of page fault
+- cannot be implemented
+- used as benchmark for other algorithm 
+- foresee future
+- traces out string from left to right
+- Victim: page the is not going to be used in the recent future
+
+
+{Vid30} Belady's Anamoly in FIFO Page Replacement algorithm
+- no. of page faults vs no. of frames
+- it is expected that with increase in no. of frames the no. of page fault decreases for same string 
+- but, for some strings, the no. of page fault increases with the increase in frames
+- this is called Belady's Anamoly in FIFO Page Replacement Algorithm
+
+
+
+
+
+
+
+
