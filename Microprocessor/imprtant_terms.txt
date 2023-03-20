@@ -1,0 +1,22 @@
+# Terms to remember:
+system call
+scheduling
+filesystem
+Time Quanta
+Fair share
+preemption: cannot a process forcefully from CPU
+degree of multiprogramming: no. of process in Ready State
+ST > MT > LT
+context switching
+Scheduling Algorithm
+convoy effect
+starvation problem
+remaining time during context switching 
+aging
+deadlock: no progress, waiting processes
+kernel
+
+
+
+
+
